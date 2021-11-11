@@ -41,16 +41,10 @@ function FormTodo({ addTodo }) {
 }
 
 function App() {
-
   const [todos, setTodos] = useState([]);
-
   const addTodo = taskname => {
     api.createTask(taskname, false);
-    /*api.getTasks().then((taskList) => {
-      return setTodos(taskList);
-    });*/
-    //taskList.push(taskname, false);
-    //setTodos(taskList);
+    
     const newTodos = [...todos, {
       taskname: taskname,
       isDone: false
@@ -59,8 +53,14 @@ function App() {
   };
 
   useEffect( () => {
+    setTodos([{
+      taskname: "Sample Todo",
+      isDone: false
+    }]);
     api.getTasks().then((taskList) => {
-      return setTodos(taskList);
+      if (taskList) {
+          return setTodos(taskList);
+      }
     });
   }, []);
 
@@ -75,10 +75,9 @@ function App() {
   const removeTodo = index => {
     const newTodos = [...todos];
     const task = newTodos[index];
-    api.deleteTask(task.taskname).then((result => {
-          newTodos.splice(index, 1);
-    }));
-    //setTodos(taskList);
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+    api.deleteTask(task.taskname);
   };
 
   return (

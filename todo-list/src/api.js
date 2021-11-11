@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: 'http://localhost:3600/'
+  baseURL: 'http://localhost:8080/'
 });
 
 export const getTasks = () => {
+
   return client
     .get( `/get_tasks`)
     .then ((response) => {
@@ -12,7 +13,7 @@ export const getTasks = () => {
       return allTasks;
     })
     .catch(error => console.error(`Error: ${error}`));
-  };
+};
 
 export const createTask = (taskname, isDone) => {
   return client
